@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}User: {{ object.username }}{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <div class="row">
+    <div class="col-sm-12">
+
+      <h2>User Profile</h2>
+      <p>Username: {{ object.username }}</p>
+      {% if object.short_name %}
+        <p>
+          Short name: {{ object.short_name }}
+          <br />
+          Full name: {{ object.full_name }}
+          <br />
+          E-Mail: {{ object.email }}
+        </p>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      {% if object.memberships.count != 0 %}
+        <h4>My Organizations</h4>
+         <div class="list-group">
+          {% for membership in object.memberships.all %}
+            <a href="{% url 'orgs:org_detail' membership.organization.slug %}" class="list-group-item">
+              <h5 class="list-group-item-heading">{{ membership.organization }}</h5>
+            </a>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+<hr />
+{% if object == request.user %}
+<!-- Action buttons -->
+<div class="row">
+
+  <div class="col-sm-12">
+    <a class="btn btn-primary" href="{% url 'users:update' %}" role="button">Update User Profile</a>
+    <a class="btn btn-primary" href="{% url 'account_email' %}" role="button">E-Mail Settings</a>
+    <!-- Your Stuff: Custom user template urls -->
+  </div>
+
+</div>
+<!-- End Action buttons -->
+{% endif %}
+
+
+</div>
+{% endblock content %}
+

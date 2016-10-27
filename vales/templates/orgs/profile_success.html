@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}User: {{ profile.member }}{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <div class="row">
+    <div class="col-sm-12">
+      <h2>Member Profile Created{{ object }}</h2>
+    </div>
+  </div>
+
+<!-- Action buttons -->
+<div class="row">
+
+  <div class="col-sm-12">
+    <a class="btn btn-primary" href="{% url 'orgs:org_detail' org %}" role="button">Back to {{ org }}</a>
+    <a class="btn btn-primary" href="{% url 'orgs:profile_update' org request.user.username profile_id %}" role="button">Update Profile</a>
+    <!-- Your Stuff: Custom user template urls -->
+  </div>
+
+</div>
+<!-- End Action buttons -->
+
+
+</div>
+{% endblock content %}
+

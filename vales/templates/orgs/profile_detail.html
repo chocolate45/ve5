@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}User: {{ profile.member }}{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <div class="row">
+    <div class="col-sm-12">
+
+      <h2>{{ profile }}</h2>
+      {% if profile %}
+        <p>
+          Organization: {{ profile.member.organization.name }}
+          <br />
+          Department: {{ profile.department }}
+          <br />
+          Position: {{ profile.position }}
+          <br />
+          Admin: {{ profile.is_admin }}
+        </p>
+      {% endif %}
+    </div>
+  </div>
+
+{% if profile.member.user == request.user %}
+<!-- Action buttons -->
+<div class="row">
+
+  <div class="col-sm-12">
+    <a class="btn btn-primary" href="{% url 'orgs:profile_update' profile.member.organization.slug profile.member profile.pk %}" role="button">Update Profile</a>
+    <a class="btn btn-primary" href="{% url 'account_email' %}" role="button">E-Mail</a>
+    <!-- Your Stuff: Custom user template urls -->
+  </div>
+
+</div>
+<!-- End Action buttons -->
+{% endif %}
+
+
+</div>
+{% endblock content %}
+

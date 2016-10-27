@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ org.name }}{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <div class="row">
+    <div class="col-sm-12">
+
+      <h2>{{ org.name }}</h2>
+
+      <!-- Organization details section -->
+      <p>
+        <a href="{{ org.url }}">{{ org.url }}</a>
+        <br />
+        Owner: <a href="{% url 'orgs:profile_detail' org.slug org.owner.user.username org.owner.pk %}">{{ org.owner.user.full_name }}</a>
+      </p>
+      <p>{{ org.description }}</p>
+      <h4></h4>
+      <!-- End Organization details section -->
+
+      <!-- Action buttons -->
+      <div class="row">
+
+        <div class="col-sm-12">
+          <a class="btn btn-primary" href="{% url 'orgs:org_update' object.slug %}" role="button">Update {{ object.name }}</a>
+          <a class="btn btn-primary" href="{% url 'orgs:profile_create' object.slug user %}" role="button">Request to join</a>
+          <a class="btn btn-primary" href="{% url 'account_email' %}" role="button">E-Mail</a>
+          <!-- Your Stuff: Custom user template urls -->
+          <p>{{ my_context }}</p>
+        </div>
+
+      </div>
+      <!-- End Action buttons -->
+
+      <!-- Organization Members section -->
+      <hr />
+      {% if org.members.all != 0 %}
+        <a href="{% url 'orgs:profile_list' org.slug %}"><h4>Members:</h4></a>
+        <div class="list-group">
+          {% for member in org.members.all %}
+            <a href="{% url 'orgs:profile_detail' org.slug member.user.username member.pk %}" class="list-group-item">
+              <h4 class="list-group-item-heading">{{ member.user.full_name }}</h4>
+              <p class="list-grou-item-text">
+              Department: {{ member.member_profile.department }}<br />
+              Position: {{ member.member_profile.position }}</p>
+            </a>
+          {% endfor %}
+        </div>
+      {% endif %}
+      <!-- End Organization Members section-->
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
